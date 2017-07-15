@@ -30,3 +30,13 @@ class HiveMetaCrawler():
 
         return self.meta[db]
 
+    def get_create_table_script(self, db, table):
+        self.cursor.execute("SHOW CREATE TABLE {}.{}".format(db, table))
+        result = self.cursor.fetchall()
+        script=[]
+        for line in result:
+            if 'TBLPROPERTIES' not in line[0] and 'transient_lastDdlTime' not in line[0]:
+                script.extend(line[0])
+
+        return ''.join(script)
+
