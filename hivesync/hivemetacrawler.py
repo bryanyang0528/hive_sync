@@ -5,7 +5,8 @@ class HiveMetaCrawler():
         self.conn = connect(auth_mechanism='PLAIN', *args, **kwargs)
         self.cursor = self.conn.cursor()
         self.meta = None
-        
+    
+    @property
     def get_databases(self):
         if not self.meta:
             self.meta={}
@@ -35,8 +36,31 @@ class HiveMetaCrawler():
         result = self.cursor.fetchall()
         script=[]
         for line in result:
-            if 'TBLPROPERTIES' not in line[0] and 'transient_lastDdlTime' not in line[0]:
+            if 'TBLPROPERTIES' in line[0]:
+                break
+            else:
                 script.extend(line[0])
+            
+        script=''.join(script)
+        self.meta[db][table] = script
 
-        return ''.join(script)
+        return self.meta[db][table]
+
+    @property
+    def get_all_tables(self):
+        self.get_databases
+        for db in self.meta.keys():
+            self.get_tables(db)
+        
+        return self.meta
+
+    @property
+    def get_all_create_table_scripts(self):
+        self.get_databases
+        self.get_all_tables
+        for db in self.meta.keys():
+            for table in self.meta[db].keys():
+                self.get_create_table_script(db, table)
+
+        return self.meta
 
