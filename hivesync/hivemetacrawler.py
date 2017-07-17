@@ -33,7 +33,7 @@ class HiveMetaCrawler():
 
     def get_tables(self, db):
         if db not in self._get_databases:
-            raise ValueError("There is no database named {}.".format(db))
+            raise ValueError("[ERROR] There is no database named {}.".format(db))
         else:
             return self.meta[db].keys()
 
