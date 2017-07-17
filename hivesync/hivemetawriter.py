@@ -32,6 +32,6 @@ class HiveMetaWriter(HiveMetaCrawler):
                 return result
             else:
                 self.cursor.execute(script)
-                print("[INFO] Add a new table {}.{}".format(db, table))
+                print("[INFO] A new table {}.{} is created".format(db, table))
                 return True
 
