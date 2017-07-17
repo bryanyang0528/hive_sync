@@ -19,11 +19,11 @@ class HiveMetaWriter(HiveMetaCrawler):
             else:
                 return False
         else:
-            raise ValueError("[ERROR] This db {} does not exit.".format(db))
+            raise ValueError("[ERROR] This db {} does not exist.".format(db))
 
     def create_table(self, db, table, script, dryrun=False):
         if self._if_table_exits(db, table):
-            raise ValueError("[ERROR] This table {}.{} exits.".format(db, table))
+            raise ValueError("[ERROR] This table {}.{} exists.".format(db, table))
         else:
             if dryrun:
                 result = {}
@@ -32,6 +32,7 @@ class HiveMetaWriter(HiveMetaCrawler):
                 return result
             else:
                 self.cursor.execute(script)
-                print("[INFO] A new table {}.{} is created".format(db, table))
+                self.cursor.execute("MSCK REPAIR TABLE {}.{}".format(db, table))
+                print("[INFO] Table {}.{} has been created successfully.".format(db, table))
                 return True
 
