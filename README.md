@@ -3,16 +3,22 @@ Sync tables between two hive metastore through hiveserver
 
 ## Usage
 
-usage: sync_table.py [-h] -src source hiveserver [-srcport port of src] -dest
+*usage*: python sync_table.py [-h] -src source hiveserver [-srcport port of src] -dest
  detination hiveserver [-destport port of dest]
  [-dryrun dry run]
 
-optional arguments:
+*optional arguments*:
+ 
  -h, --help show this help message and exit
+ 
  -src source hiveserver
+ 
  -srcport port of src
+ 
  -dest detination hiveserver
+ 
  -destport port of dest
+ 
  -dryrun dry run
 
 ## Example
