@@ -26,7 +26,7 @@ class HiveMetaWriter(HiveMetaCrawler):
             return False
 
     def create_table(self, db, table, script, dryrun=False):
-        if self._if_table_exits(db, table):
+        if self.if_table_exits(db, table):
             raise ValueError("[ERROR] This table {}.{} exists.".format(db, table))
         else:
             if dryrun:
@@ -41,10 +41,10 @@ class HiveMetaWriter(HiveMetaCrawler):
                 return True
 
     def repair_partition(self, db, table):
-        if self._if_table_exits(db, table):
+        if self.if_table_exits(db, table):
             try:
                 self.cursor.execute("MSCK REPAIR TABLE {}.{}".format(db, table))
-                time.sleep(5)
+                time.sleep(3)
                 print("[INFO] Table {}.{} has been updated successfully.".format(db, table))
                 return True
             except:
